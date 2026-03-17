@@ -27,6 +27,8 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'payload'
 
+import { ARTICLE_SECTIONS } from '@/constants/articleSections'
+
 export const Articles: CollectionConfig<'articles'> = {
   slug: 'articles',
   access: {
@@ -48,7 +50,7 @@ export const Articles: CollectionConfig<'articles'> = {
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'section', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -70,6 +72,12 @@ export const Articles: CollectionConfig<'articles'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'section',
+      type: 'select',
+      required: true,
+      options: ARTICLE_SECTIONS as any as { label: string; value: string }[],
     },
     {
       type: 'tabs',

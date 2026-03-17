@@ -238,6 +238,7 @@ export interface Page {
 export interface Article {
   id: number;
   title: string;
+  section: 'news' | 'opinion' | 'feature' | 'kultura';
   heroImage?: (number | null) | Media;
   content: {
     root: {
@@ -1195,6 +1196,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
+  section?: T;
   heroImage?: T;
   content?: T;
   relatedArticles?: T;

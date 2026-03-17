@@ -264,5 +264,6 @@ export const article3: (args: ArticleArgs) => RequiredDataFromCollectionSlug<'ar
     },
     relatedArticles: [], // this is populated by the seed script
     title: 'Dollar and Sense: The Financial Forecast',
+    section: 'opinion',
   }
 }

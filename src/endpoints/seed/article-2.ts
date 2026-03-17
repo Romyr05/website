@@ -228,5 +228,6 @@ export const article2: (args: ArticleArgs) => RequiredDataFromCollectionSlug<'ar
     },
     relatedArticles: [], // this is populated by the seed script
     title: 'Global Gaze: Beyond the Headlines',
+    section: 'feature',
   }
 }
