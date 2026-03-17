@@ -77,7 +77,7 @@ export const Articles: CollectionConfig<'articles'> = {
       name: 'section',
       type: 'select',
       required: true,
-      options: ARTICLE_SECTIONS,
+      options: ARTICLE_SECTIONS as any as { label: string; value: string }[],
     },
     {
       type: 'tabs',
