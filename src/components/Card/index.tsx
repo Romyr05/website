@@ -62,7 +62,7 @@ export const Card: React.FC<{
         {/* Title */}
         {titleToUse && (
           <div className="prose">
-            <h3>
+            <h3 className="line-clamp-2">
               <Link className="not-prose" href={href} ref={link.ref}>
                 {titleToUse}
               </Link>
@@ -90,7 +90,7 @@ export const Card: React.FC<{
 
         {/* Description */}
         {sanitizedDescription && (
-          <div className="mt-2">
+          <div className="line-clamp-3 mt-2">
             <p>{sanitizedDescription}</p>
           </div>
         )}
