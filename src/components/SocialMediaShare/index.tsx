@@ -1,7 +1,6 @@
 'use client'
 
-import * as React from 'react'
-import { useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
@@ -10,7 +9,7 @@ type Props = {
   url: string
 }
 
-export const SocialMediaShare: React.FC<Props> = ({ title, url }) => {
+export const SocialMediaShare: FC<Props> = ({ title, url }) => {
   const [copied, setCopied] = useState(false)
 
   const encodedTitle = encodeURIComponent(title)
@@ -25,10 +24,6 @@ export const SocialMediaShare: React.FC<Props> = ({ title, url }) => {
       href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedURL}`,
       label: 'X',
     },
-    {
-        href: 'https://www.instagram.com/',
-        label: `Instagram`
-    }
   ]
 
   const handleCopy = async () => {
@@ -36,7 +31,7 @@ export const SocialMediaShare: React.FC<Props> = ({ title, url }) => {
     setCopied(true)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!copied) return
 
     const timeout = window.setTimeout(() => {
