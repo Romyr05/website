@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
@@ -10,7 +11,7 @@ type Props = {
 }
 
 export const SocialMediaShare: React.FC<Props> = ({ title, url }) => {
-  const [copied, setCopied] = React.useState(false)
+  const [copied, setCopied] = useState(false)
 
   const encodedTitle = encodeURIComponent(title)
   const encodedURL = encodeURIComponent(url)
