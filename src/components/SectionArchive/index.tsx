@@ -1,4 +1,4 @@
-import type { Metadata } from 'next/types'
+import type { ArticleSection } from '@/constants/articleSections'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
@@ -6,19 +6,26 @@ import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-import PageClient from './page.client'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+type Props = {
+  section: ArticleSection
+  sectionLabel: string
+  page?: number
+}
 
-export default async function Page() {
+export async function SectionArchive({ section, sectionLabel, page = 1 }: Props) {
   const payload = await getPayload({ config: configPromise })
 
   const articles = await payload.find({
     collection: 'articles',
     depth: 1,
     limit: 12,
+    page,
     overrideAccess: false,
+    where: {
+      section: { equals: section },
+      _status: { equals: 'published' },
+    },
     select: {
       title: true,
       slug: true,
@@ -32,10 +39,9 @@ export default async function Page() {
 
   return (
     <div className="pt-24 pb-24">
-      <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Articles</h1>
+          <h1>{sectionLabel}</h1>
         </div>
       </div>
 
@@ -52,15 +58,13 @@ export default async function Page() {
 
       <div className="container">
         {articles.totalPages > 1 && articles.page && (
-          <Pagination page={articles.page} totalPages={articles.totalPages} basePath="/articles" />
+          <Pagination
+            page={articles.page}
+            totalPages={articles.totalPages}
+            basePath={`${section}`}
+          />
         )}
       </div>
     </div>
   )
-}
-
-export function generateMetadata(): Metadata {
-  return {
-    title: `Pagbutlak Articles`,
-  }
 }

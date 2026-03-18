@@ -182,8 +182,29 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
-              label: 'Articles',
-              url: '/articles',
+              label: 'News',
+              url: '/news',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Opinion',
+              url: '/opinion',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Features',
+              url: '/features',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Kultura',
+              url: '/kultura',
             },
           },
         ],

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-
 import { RelatedArticles } from '@/blocks/RelatedArticles/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { SocialMediaShare } from '@/components/SocialMediaShare'
@@ -8,7 +7,6 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
-
 import { ArticleHero } from '@/heros/ArticleHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -27,11 +25,9 @@ export async function generateStaticParams() {
       slug: true,
     },
   })
-
   const params = articles.docs.map(({ slug }) => {
     return { slug }
   })
-
   return params
 }
 
@@ -44,7 +40,6 @@ type Args = {
 export default async function ArticlePage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
   const url = '/articles/' + decodedSlug
   const shareURL = `${getServerSideURL()}${url}`
@@ -67,12 +62,14 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
         <div className="container">
           <RichText className="max-w-[48rem] mx-auto" data={article.content} enableGutter={false} />
           {article.relatedArticles && article.relatedArticles.length > 0 && (
-            <RelatedArticles
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={article.relatedArticles.filter(
-                (relatedArticle) => typeof relatedArticle === 'object',
-              )}
-            />
+            <div className="mx-4 my-16 border-t border-border py-8 md:mx-8 lg:mx-12">
+              <h2 className="mb-4 text-lg font-semibold">Related Articles</h2>
+              <RelatedArticles
+                docs={article.relatedArticles.filter(
+                  (relatedArticle) => typeof relatedArticle === 'object',
+                )}
+              />
+            </div>
           )}
           <SocialMediaShare title={article.title} url={shareURL} />
         </div>
@@ -83,18 +80,14 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
   const article = await queryArticleBySlug({ slug: decodedSlug })
-
   return generateMeta({ doc: article })
 }
 
 const queryArticleBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
-
   const result = await payload.find({
     collection: 'articles',
     draft,
@@ -107,6 +100,5 @@ const queryArticleBySlug = cache(async ({ slug }: { slug: string }) => {
       },
     },
   })
-
   return result.docs?.[0] || null
 })
