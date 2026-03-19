@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { RelatedArticles } from '@/blocks/RelatedArticles/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import { SocialMediaShare } from '@/components/SocialMediaShare'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
@@ -9,7 +8,6 @@ import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 import { ArticleHero } from '@/heros/ArticleHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import { getServerSideURL } from '@/utilities/getURL'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
@@ -41,8 +39,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/articles/' + decodedSlug
-  const shareURL = `${getServerSideURL()}${url}`
+  const url = `/articles/${decodedSlug}`
   const article = await queryArticleBySlug({ slug: decodedSlug })
 
   if (!article) return <PayloadRedirects url={url} />
@@ -59,6 +56,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
       {/* Main content */}
       <div className="max-w-[48rem] mx-auto px-4 md:px-6">
         <ArticleHero article={article} />
+
         <RichText data={article.content} enableGutter={false} />
       </div>
 
@@ -73,8 +71,6 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
           />
         </div>
       )}
-
-      <SocialMediaShare title={article.title} url={shareURL} />
     </article>
   )
 }
