@@ -1,7 +1,8 @@
 'use client'
 
-import { FC, useEffect, useState } from 'react'
-import { Check, Copy, Facebook } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Check, Copy } from 'lucide-react'
+import {SiFacebook, SiX} from '@icons-pack/react-simple-icons'
 
 import { Button } from '@/components/ui/button'
 
@@ -12,17 +13,11 @@ type Props = {
 
 type ShareLink = {
   href: string
-  icon: FC<{ className?: string }>
+  icon: React.ComponentType<{ className?: string }>
   label: string
 }
 
-const XIcon: FC<{ className?: string }> = ({ className }) => (
-  <svg aria-hidden="true" className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.26l-4.9-7.42L5.55 22H2.44l7.24-8.28L1.92 2h6.42l4.43 6.73L18.9 2Zm-1.1 18h1.73L7.4 3.9H5.54L17.8 20Z" />
-  </svg>
-)
-
-export const SocialMediaShare: FC<Props> = ({ title, url }) => {
+export const SocialMediaShare = ({ title, url }: Props) => {
   const [copied, setCopied] = useState(false)
 
   const encodedTitle = encodeURIComponent(title)
@@ -31,12 +26,12 @@ export const SocialMediaShare: FC<Props> = ({ title, url }) => {
   const shareLinks: ShareLink[] = [
     {
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}`,
-      icon: Facebook,
+      icon: SiFacebook,
       label: 'Share on Facebook',
     },
     {
       href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedURL}`,
-      icon: XIcon,
+      icon: SiX,
       label: 'Share on X',
     },
   ]

@@ -39,7 +39,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const url = `/articles/${decodedSlug}`
+  const url = `/articles/` + decodedSlug
   const article = await queryArticleBySlug({ slug: decodedSlug })
 
   if (!article) return <PayloadRedirects url={url} />
