@@ -861,6 +861,7 @@ export interface Search {
     value: number | Article;
   };
   slug?: string | null;
+  authors?: (number | Author)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -1574,6 +1575,7 @@ export interface SearchSelect<T extends boolean = true> {
   priority?: T;
   doc?: T;
   slug?: T;
+  authors?: T;
   meta?:
     | T
     | {
